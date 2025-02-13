@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Você me ama?</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+            background-color: #ffccdc;
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+        }
+        .container {
+            text-align: center;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            position: relative;
+            z-index: 10;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 18px;
+        }
+        .sim {
+            background-color: #ff66b2;
+            color: white;
+        }
+        .nao {
+            background-color: #ff4d4d;
+            color: white;
+            position: absolute;
+        }
+        #imagem {
+            display: none;
+            width: 200px;
+            height: auto;
+            margin-top: 20px;
+        }
+        .heart {
+            position: absolute;
+            color: red;
+            font-size: 24px;
+            animation: floatUp 2s linear infinite;
+        }
+        @keyframes floatUp {
+            0% {
+                transform: translateY(0) scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) scale(1.5);
+                opacity: 0;
+            }
+        }
+        .pergunta-tem-certeza {
+            position: absolute;
+            font-size: 18px;
+            color: #ff66b2;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 id="pergunta">Você me ama?</h1>
+        <button class="sim" onclick="mostrarImagem()">Sim</button>
+        <button class="nao" id="nao" onclick="moverBotao()">Não</button>
+        <img id="imagem" src="https://i.imgur.com/WgkhGwB.png" alt="Imagem de amor">
+    </div>
+    
+    <script>
+        let textos = ["Tem certeza?", "Tem certeza mesmo?", "Pensa de novo!", "Última chance!", "Sério isso? 😢"];
+        
+        function moverBotao() {
+            let botao = document.getElementById("nao");
+            let x = Math.random() * (window.innerWidth - botao.clientWidth - 20); // Evita sair da tela
+            let y = Math.random() * (window.innerHeight - botao.clientHeight - 20); // Evita sair da tela
+            botao.style.left = `${x}px`;
+            botao.style.top = `${y}px`;
+            
+            // Exibe uma das perguntas aleatoriamente na tela
+            let textoAleatorio = textos[Math.floor(Math.random() * textos.length)];
+            criarPergunta(textoAleatorio);
+        }
+        
+        function criarPergunta(texto) {
+            let pergunta = document.createElement("div");
+            pergunta.innerText = texto;
+            pergunta.classList.add("pergunta-tem-certeza");
+            
+            let x = Math.random() * (window.innerWidth - 150); // Limita a posição
+            let y = Math.random() * (window.innerHeight - 30); // Limita a posição
+            
+            pergunta.style.left = `${x}px`;
+            pergunta.style.top = `${y}px`;
+            document.body.appendChild(pergunta);
+            
+            setTimeout(() => {
+                pergunta.remove();
+            }, 2000);
+        }
+
+        function mostrarImagem() {
+            document.getElementById("imagem").style.display = "block";
+            document.getElementById("nao").style.display = "none";
+            document.getElementById("pergunta").innerText = "Também te amo"; // Altera o texto da pergunta
+            criarCoracoes();
+        }
+        
+        function criarCoracoes() {
+            for (let i = 0; i < 20; i++) {
+                let heart = document.createElement("div");
+                heart.innerHTML = "❤️";
+                heart.classList.add("heart");
+                document.body.appendChild(heart);
+                
+                let startX = Math.random() * window.innerWidth;
+                let startY = window.innerHeight - 50;
+                heart.style.left = `${startX}px`;
+                heart.style.top = `${startY}px`;
+                
+                setTimeout(() => {
+                    heart.remove();
+                }, 2000);
+            }
+        }
+    </script>
+</body>
+</html>
